@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 
 /**
  * useState
@@ -17,15 +17,22 @@ import React, { useState, useEffect, useMemo } from "react";
  * const techSize = useMemo(() => techs.length, [techs]) // 1º Parametro -> Função que vai ser executada e o resultado armazenado na variável techSize
  *                                                       // 2º Parametro -> Quando ela deve ser executada
  */
+/**
+ * useCallback
+ * Semelhante ao useMemo porém, retorna uma função
+ * const handleAdd = useCallback(() => {}, []); // 1º Parametro -> Função que vai ser executada e o resultado armazenado na variável techSize
+ *                                              // 2º Parametro -> Quando ela deve ser executada
+ */
 
 function App() {
   const [techs, setTechs] = useState([]);
   const [newTech, setNewTech] = useState('');
 
-  function handleAdd() {
+  const handleAdd = useCallback(() => {
+    // Essa função só será criada pelo java script quando houver alteração nas variáveil newTech e techs
     setTechs([ ...techs, newTech ]);
     setNewTech('');
-  }
+  }, [newTech, techs])
 
   useEffect(() => {
     // Nesse exemplo, a função será executada quando o componente for montado em tela, semelhante ao componentDidMount
